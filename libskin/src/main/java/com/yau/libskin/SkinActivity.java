@@ -1,6 +1,7 @@
 package com.yau.libskin;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yau.libskin.base.ISkinView;
+import com.yau.libskin.utils.ActionBarUtils;
+import com.yau.libskin.utils.NavigationUtils;
+import com.yau.libskin.utils.StatusBarUtils;
 import com.yau.libskin.view.SkinViewInflater;
 
 /**
@@ -41,6 +45,13 @@ public abstract class SkinActivity extends AppCompatActivity {
 
     protected void setDayNightMode(@AppCompatDelegate.NightMode int nightMode) {
         getDelegate().setLocalNightMode(nightMode);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            StatusBarUtils.forStatusBar(this);
+            ActionBarUtils.forActionBar(this);
+            NavigationUtils.forNavigation(this);
+        }
+
         notifySkinChange(getWindow().getDecorView());
     }
 

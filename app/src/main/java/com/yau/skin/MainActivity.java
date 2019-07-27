@@ -18,11 +18,11 @@ public class MainActivity extends SkinActivity {
 
     public void switchSkin(View view) {
         if (isNight) {
-            setDayNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             isNight = false;
+            setDayNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else {
-            setDayNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             isNight = true;
+            setDayNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
 }

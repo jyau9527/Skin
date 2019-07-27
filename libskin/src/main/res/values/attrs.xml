@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="SkinLinearLayout">
+        <attr name="android:background" />
+    </declare-styleable>
+
     <declare-styleable name="SkinTextView">
         <attr name="android:textColor" />
         <attr name="android:background" />
