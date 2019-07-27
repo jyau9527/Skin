@@ -3,11 +3,15 @@ package com.yau.libskin;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import com.yau.libskin.base.ISkinView;
 import com.yau.libskin.view.SkinViewInflater;
 
 /**
@@ -21,7 +25,8 @@ public abstract class SkinActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LayoutInflater.from(this).setFactory2(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        LayoutInflaterCompat.setFactory2(inflater, this);
         super.onCreate(savedInstanceState);
     }
 
@@ -32,5 +37,25 @@ public abstract class SkinActivity extends AppCompatActivity {
         }
         View view = mSkinViewInflater.createView(name, attrs);
         return view == null ? super.onCreateView(parent, name, context, attrs) : view;
+    }
+
+    protected void setDayNightMode(@AppCompatDelegate.NightMode int nightMode) {
+        getDelegate().setLocalNightMode(nightMode);
+        notifySkinChange(getWindow().getDecorView());
+    }
+
+    private void notifySkinChange(View view) {
+        if (view instanceof ISkinView) {
+            ISkinView skinView = (ISkinView) view;
+            skinView.onSkinChange();
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) view;
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                notifySkinChange(parent.getChildAt(i));
+            }
+        }
     }
 }

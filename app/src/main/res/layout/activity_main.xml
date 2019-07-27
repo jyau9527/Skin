@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorCommonBackground"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -9,13 +10,19 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:background="@color/colorTextBackground"
+        android:padding="30dp"
+        android:text="Hello World!"
+        android:textColor="@color/colorCommonText" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:text="Hello World!" />
+        android:background="@color/colorButtonBackground"
+        android:onClick="switchSkin"
+        android:text="Hello World!"
+        android:textColor="@color/colorCommonText" />
 
 </LinearLayout>
