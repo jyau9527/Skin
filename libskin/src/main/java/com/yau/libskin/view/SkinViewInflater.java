@@ -31,6 +31,10 @@ public class SkinViewInflater extends AppCompatViewInflater {
                 view = new SkinButton(context, attrs);
                 verifyNotNull(view, name);
                 break;
+            case "LinearLayout":
+                view = new SkinLinearLayout(context, attrs);
+                verifyNotNull(view, name);
+                break;
         }
         return view;
     }
