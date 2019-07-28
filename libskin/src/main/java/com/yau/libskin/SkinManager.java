@@ -8,8 +8,12 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.ArrayMap;
+
+import com.yau.libskin.bean.SkinCache;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * author: yau
@@ -23,12 +27,14 @@ public class SkinManager {
     private Resources skinResources; // 用于加载皮肤包资源
     private String skinPackageName; // 皮肤包资源所在包名（注：皮肤包不在app内，也不限包名）
     private boolean useDefaultSkin = true; // 应用默认皮肤（app内置）
+    private Map<String, SkinCache> cacheSkinMap;
 
     private static final class SingletonHolder {
         private static final SkinManager INSTANCE = new SkinManager();
     }
 
-    private SkinManager() {}
+    private SkinManager() {
+    }
 
     public static SkinManager getInstance() {
         return SingletonHolder.INSTANCE;
@@ -37,6 +43,7 @@ public class SkinManager {
     public void init(Application application) {
         this.application = application;
         appResources = application.getResources();
+        cacheSkinMap = new ArrayMap<>();
     }
 
     /**
@@ -49,6 +56,17 @@ public class SkinManager {
             useDefaultSkin = true;
             return;
         }
+
+        if (cacheSkinMap.containsKey(skinPath)) {
+            useDefaultSkin = false;
+            SkinCache skinCache = cacheSkinMap.get(skinPath);
+            if (skinCache != null) {
+                skinResources = skinCache.getResources();
+                skinPackageName = skinCache.getPackageName();
+                return;
+            }
+        }
+
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
             Method addAssetPath = assetManager.getClass().getDeclaredMethod("addAssetPath", String.class);
@@ -60,6 +78,9 @@ public class SkinManager {
                     .getPackageArchiveInfo(skinPath, PackageManager.GET_ACTIVITIES).packageName;
 
             useDefaultSkin = TextUtils.isEmpty(skinPackageName);
+            if (!useDefaultSkin) {
+                cacheSkinMap.put(skinPath, new SkinCache(skinResources, skinPackageName));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             useDefaultSkin = true;
