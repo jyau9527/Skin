@@ -7,10 +7,12 @@
     <declare-styleable name="SkinTextView">
         <attr name="android:textColor" />
         <attr name="android:background" />
+        <attr name="customTypeFace" />
     </declare-styleable>
 
     <declare-styleable name="SkinButton">
         <attr name="android:textColor" />
         <attr name="android:background" />
+        <attr name="customTypeFace" />
     </declare-styleable>
 </resources>

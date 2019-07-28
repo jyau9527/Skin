@@ -3,9 +3,11 @@ package com.yau.libskin.view;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.yau.libskin.R;
@@ -52,6 +54,20 @@ public class SkinButton extends AppCompatButton implements ISkinView {
         if (backgroundResId > 0) {
             Drawable drawable = ContextCompat.getDrawable(getContext(), backgroundResId);
             setBackgroundDrawable(drawable);
+        }
+
+        int typefaceResId =
+                mAttrBean.getResById(R.styleable.SkinButton[R.styleable.SkinButton_customTypeFace]);
+        if (typefaceResId > 0) {
+            String typefacePath = getContext().getString(typefaceResId);
+            if (TextUtils.isEmpty(typefacePath)) {
+                setTypeface(Typeface.DEFAULT);
+            } else {
+                Typeface typeface = Typeface.createFromAsset(
+                        getContext().getAssets(),
+                        typefacePath);
+                setTypeface(typeface);
+            }
         }
     }
 }

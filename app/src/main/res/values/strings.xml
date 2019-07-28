@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Skin</string>
+    <string name="custom_typeface_path" />
 </resources>

@@ -21,6 +21,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@color/colorButtonBackground"
+        android:gravity="center"
         android:onClick="switchSkin"
         android:text="Hello World!"
         android:textColor="@color/colorCommonText" />
