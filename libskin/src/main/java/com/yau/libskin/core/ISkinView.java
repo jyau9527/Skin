@@ -1,4 +1,4 @@
-package com.yau.libskin.base;
+package com.yau.libskin.core;
 
 /**
  * author: yau

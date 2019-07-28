@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.yau.libskin.R;
-import com.yau.libskin.base.ISkinView;
+import com.yau.libskin.SkinManager;
+import com.yau.libskin.core.ISkinView;
 import com.yau.libskin.bean.AttrBean;
 
 /**
@@ -41,7 +42,12 @@ public class SkinLinearLayout extends LinearLayout implements ISkinView {
         int backgroundResId =
                 mAttrBean.getResById(R.styleable.SkinLinearLayout[R.styleable.SkinLinearLayout_android_background]);
         if (backgroundResId > 0) {
-            Drawable drawable = ContextCompat.getDrawable(getContext(), backgroundResId);
+            Drawable drawable;
+            if (SkinManager.getInstance().isUseDefaultSkin()) {
+                drawable = ContextCompat.getDrawable(getContext(), backgroundResId);
+            } else {
+                drawable = SkinManager.getInstance().getDrawableOrMipMap(backgroundResId);
+            }
             setBackground(drawable);
         }
     }

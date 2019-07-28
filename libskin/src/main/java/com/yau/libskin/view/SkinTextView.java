@@ -7,12 +7,12 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.yau.libskin.R;
-import com.yau.libskin.base.ISkinView;
+import com.yau.libskin.SkinManager;
 import com.yau.libskin.bean.AttrBean;
+import com.yau.libskin.core.ISkinView;
 
 /**
  * author: yau
@@ -44,28 +44,34 @@ public class SkinTextView extends AppCompatTextView implements ISkinView {
         int textColorResId = mAttrBean.getResById(
                 R.styleable.SkinTextView[R.styleable.SkinTextView_android_textColor]);
         if (textColorResId > 0) {
-            ColorStateList textColorStateList =
-                    ContextCompat.getColorStateList(getContext(), textColorResId);
+            ColorStateList textColorStateList;
+            if (SkinManager.getInstance().isUseDefaultSkin()) {
+                textColorStateList = ContextCompat.getColorStateList(getContext(), textColorResId);
+            } else {
+                textColorStateList = SkinManager.getInstance().getColorStateList(textColorResId);
+            }
             setTextColor(textColorStateList);
         }
 
         int backgroundResId =
                 mAttrBean.getResById(R.styleable.SkinTextView[R.styleable.SkinTextView_android_background]);
         if (backgroundResId > 0) {
-            Drawable drawable = ContextCompat.getDrawable(getContext(), backgroundResId);
+            Drawable drawable;
+            if (SkinManager.getInstance().isUseDefaultSkin()) {
+                drawable = ContextCompat.getDrawable(getContext(), backgroundResId);
+            } else {
+                drawable = SkinManager.getInstance().getDrawableOrMipMap(backgroundResId);
+            }
             setBackgroundDrawable(drawable);
         }
 
         int typefaceResId =
                 mAttrBean.getResById(R.styleable.SkinTextView[R.styleable.SkinTextView_customTypeFace]);
         if (typefaceResId > 0) {
-            String typefacePath = getContext().getString(typefaceResId);
-            if (TextUtils.isEmpty(typefacePath)) {
+            if (SkinManager.getInstance().isUseDefaultSkin()) {
                 setTypeface(Typeface.DEFAULT);
             } else {
-                Typeface typeface = Typeface.createFromAsset(
-                        getContext().getAssets(),
-                        typefacePath);
+                Typeface typeface = SkinManager.getInstance().getTypeface(typefaceResId);
                 setTypeface(typeface);
             }
         }

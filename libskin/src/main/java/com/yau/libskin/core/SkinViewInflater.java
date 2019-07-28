@@ -1,10 +1,14 @@
-package com.yau.libskin.view;
+package com.yau.libskin.core;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatViewInflater;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.yau.libskin.view.SkinButton;
+import com.yau.libskin.view.SkinLinearLayout;
+import com.yau.libskin.view.SkinTextView;
 
 /**
  * author: yau

@@ -1,4 +1,4 @@
-package com.yau.libskin;
+package com.yau.libskin.base;
 
 import android.content.Context;
 import android.os.Build;
@@ -12,11 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yau.libskin.base.ISkinView;
+import com.yau.libskin.SkinManager;
+import com.yau.libskin.core.ISkinView;
 import com.yau.libskin.utils.ActionBarUtils;
 import com.yau.libskin.utils.NavigationUtils;
 import com.yau.libskin.utils.StatusBarUtils;
-import com.yau.libskin.view.SkinViewInflater;
+import com.yau.libskin.core.SkinViewInflater;
 
 /**
  * author: yau
@@ -41,6 +42,23 @@ public abstract class SkinActivity extends AppCompatActivity {
         }
         View view = mSkinViewInflater.createView(name, attrs);
         return view == null ? super.onCreateView(parent, name, context, attrs) : view;
+    }
+
+    protected void defaultSkin(int themeColorId) {
+        this.switchSkin(null, themeColorId);
+    }
+
+    protected void switchSkin(String skinPath, int themeColorId) {
+        SkinManager.getInstance().loadSkin(skinPath);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            int color = SkinManager.getInstance().getColor(themeColorId);
+            StatusBarUtils.forStatusBar(this, color);
+            ActionBarUtils.forActionBar(this, color);
+            NavigationUtils.forNavigation(this, color);
+        }
+
+        notifySkinChange(getWindow().getDecorView());
     }
 
     protected void setDayNightMode(@AppCompatDelegate.NightMode int nightMode) {
